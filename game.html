@@ -6,12 +6,14 @@
     <title>ZENITH: SINGULARITY v3.0.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
-        /* [БЛОК СТИЛЕЙ ОСТАЕТСЯ БЕЗ ИЗМЕНЕНИЙ ДЛЯ СОХРАНЕНИЯ ДИЗАЙНА] */
         :root { --p: #00f2ff; --p-rgb: 0, 242, 255; --bg: #030305; --panel: rgba(10, 10, 15, 0.7); --font-h: 'Orbitron', sans-serif; --font-m: 'JetBrains Mono', monospace; --shadow: 0 0 30px rgba(var(--p-rgb), 0.4); --glow: drop-shadow(0 0 15px var(--p)); --radius: 16px; --glass: backdrop-filter: blur(15px); }
         .t-singularity { --p: #ffffff; --bg: #000000; text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
-        .t-ruby { --p: #ff0055; --p-rgb: 255, 0, 85; } .t-emerald { --p: #00ff88; --p-rgb: 0, 255, 136; }
-        .t-amber { --p: #ffaa00; --p-rgb: 255, 170, 0; } .t-violet { --p: #8a2be2; --p-rgb: 138, 43, 226; }
-        .t-matrix { --p: #00ff00; --bg: #001100; --font-h: var(--font-m); } .t-void { --p: #444; --bg: #050505; }
+        .t-ruby { --p: #ff0055; --p-rgb: 255, 0, 85; } 
+        .t-emerald { --p: #00ff88; --p-rgb: 0, 255, 136; }
+        .t-amber { --p: #ffaa00; --p-rgb: 255, 170, 0; } 
+        .t-violet { --p: #8a2be2; --p-rgb: 138, 43, 226; }
+        .t-matrix { --p: #00ff00; --bg: #001100; --font-h: var(--font-m); } 
+        .t-void { --p: #444; --bg: #050505; }
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: var(--p); border-radius: 10px; }
         body { background: var(--bg); color: #fff; font-family: var(--font-m); height: 100vh; overflow: hidden; display: flex; transition: background 0.8s ease; }
@@ -58,9 +60,7 @@
     </style>
 </head>
 <body>
-
     <canvas id="vfx-canvas"></canvas>
-
     <div id="app">
         <nav class="sidebar">
             <div class="nav-btn active" onclick="UI.nav('core')"><i>⚡</i>ЯДРО</div>
@@ -70,103 +70,26 @@
             <div class="nav-btn" onclick="UI.nav('cases')"><i>📦</i>ГАЧА</div>
             <div class="nav-btn" onclick="UI.nav('system')"><i>⚙️</i>СИСТЕМА</div>
         </nav>
-
         <main class="main-view">
             <header class="header">
-                <div class="stat-group">
-                    <span class="stat-label" id="lang-energy">ЭНЕРГИЯ_ДАННЫХ</span>
-                    <span class="stat-value" id="ui-score">0.00</span>
-                </div>
-                <div class="stat-group" style="text-align: right;">
-                    <span class="stat-label">ПРОПУСКНАЯ СПОСОБНОСТЬ (PPS)</span>
-                    <span class="stat-value" id="ui-pps" style="color: var(--p); font-size: 1.8rem;">0.00</span>
-                </div>
+                <div class="stat-group"><span class="stat-label">ЭНЕРГИЯ_ДАННЫХ</span><span class="stat-value" id="ui-score">0.00</span></div>
+                <div class="stat-group" style="text-align: right;"><span class="stat-label">PPS</span><span class="stat-value" id="ui-pps" style="color: var(--p); font-size: 1.8rem;">0.00</span></div>
             </header>
-
             <div class="content" id="scroll-area">
                 <section id="v-core" class="view-section active">
                     <div class="core-container">
-                        <div class="orb-wrapper" id="orb-hitbox">
-                            <div class="orb-ring"></div>
-                            <div class="orb-ring"></div>
-                            <div class="orb skin-0" id="main-orb"><span>Ω</span></div>
-                        </div>
-                        <div style="margin-top: 50px; text-align: center;">
-                            <h2 style="font-family: var(--font-h); color: var(--p); margin-bottom: 10px;">УРОВЕНЬ: <span id="ui-lvl">1</span></h2>
-                            <p style="color: #666; font-size: 0.8rem;">КЛИКАЙ ДЛЯ ГЕНЕРАЦИИ. ЗАЖМИ SHIFT ДЛЯ МНОЖИТЕЛЯ.</p>
-                        </div>
+                        <div class="orb-wrapper" id="orb-hitbox"><div class="orb-ring"></div><div class="orb-ring"></div><div class="orb skin-0" id="main-orb"><span>Ω</span></div></div>
+                        <div style="margin-top: 50px; text-align: center;"><h2 style="font-family: var(--font-h); color: var(--p); margin-bottom: 10px;">УРОВЕНЬ: <span id="ui-lvl">1</span></h2><p style="color: #666; font-size: 0.8rem;">КЛИКАЙ ДЛЯ ГЕНЕРАЦИИ. ЗАЖМИ SHIFT ДЛЯ МНОЖИТЕЛЯ.</p></div>
                     </div>
                 </section>
-
-                <section id="v-hardware" class="view-section">
-                    <h2 style="font-family: var(--font-h); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">ФИЗИЧЕСКАЯ ИНФРАСТРУКТУРА</h2>
-                    <div class="grid" id="grid-hw"></div>
-                </section>
-
-                <section id="v-software" class="view-section">
-                    <h2 style="font-family: var(--font-h); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">ЛОГИЧЕСКИЕ УЛУЧШЕНИЯ</h2>
-                    <div class="grid" id="grid-sw"></div>
-                </section>
-
-                <section id="v-world" class="view-section">
-                    <h2 style="font-family: var(--font-h); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">МЕЖМЕРНЫЙ НЕКСУС</h2>
-                    <div class="grid" id="grid-loc"></div>
-                </section>
-
-                <section id="v-cases" class="view-section">
-                    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
-                        <h2 style="font-family: var(--font-h); font-size: 2.5rem; margin-bottom: 20px;">КВАНТОВЫЙ ЛУТБОКС</h2>
-                        <div id="case-scene" style="height: 300px; border: 1px solid var(--p); margin-bottom: 30px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); font-size: 5rem; border-radius: var(--radius); text-shadow: var(--shadow);">📦</div>
-                        <h3 id="case-result" style="color: var(--p); margin-bottom: 20px; font-family: var(--font-h);">ОЖИДАНИЕ...</h3>
-                        <div class="grid" style="grid-template-columns: 1fr 1fr;">
-                            <button class="btn btn-action" onclick="Game.openCase(0)">ОБЫЧНЫЙ (1.00K)</button>
-                            <button class="btn btn-action" style="background: #ff0055; color: #fff; border:none;" onclick="Game.openCase(1)">АНОМАЛЬНЫЙ (50.0K)</button>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="v-system" class="view-section">
-                    <div class="grid">
-                        <div class="card">
-                            <h3>МАТРИЦА ТЕМЫ</h3>
-                            <select id="sel-theme" class="btn" onchange="UI.setTheme(this.value)">
-                                <option value="t-default">КИБЕР СИНИЙ</option>
-                                <option value="t-ruby">КРОВАВЫЙ РУБИН</option>
-                                <option value="t-emerald">ТОКСИЧНЫЙ ИЗУМРУД</option>
-                                <option value="t-amber">СОЛНЕЧНЫЙ ЯНТАРЬ</option>
-                                <option value="t-violet">ГЛУБОКИЙ ФИОЛЕТ</option>
-                                <option value="t-matrix">ТЕРМИНАЛ ХАКЕРА</option>
-                                <option value="t-singularity">ЧИСТАЯ СИНГУЛЯРНОСТЬ</option>
-                            </select>
-                        </div>
-                        <div class="card">
-                            <h3>СКИН ГЕОМЕТРИИ</h3>
-                            <select id="sel-skin" class="btn" onchange="UI.setSkin(this.value)">
-                                <option value="0">СФЕРА (КЛАССИКА)</option>
-                                <option value="1">КУБ (СТАБИЛЬНЫЙ)</option>
-                                <option value="2">ГЕКСАГОН (СЛОЖНЫЙ)</option>
-                            </select>
-                        </div>
-                        <div class="card">
-                            <h3>АУДИО СИНТЕЗ</h3>
-                            <select id="sel-wave" class="btn">
-                                <option value="sine">МЯГКИЙ (СИНУС)</option>
-                                <option value="square">8-БИТ (КВАДРАТ)</option>
-                                <option value="sawtooth">АГРЕССИВНЫЙ (ПИЛА)</option>
-                                <option value="triangle">РЕТРО (ТРЕУГОЛЬНИК)</option>
-                            </select>
-                            <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.2" style="width:100%; margin-top:15px; cursor:pointer;">
-                        </div>
-                        <div class="card">
-                            <h3>СИСТЕМНЫЙ КОНТРОЛЬ</h3>
-                            <button class="btn" style="border-color: #ff0055; color: #ff0055;" onclick="Game.hardReset()">ПОЛНЫЙ СБРОС ДАННЫХ</button>
-                        </div>
-                    </div>
-                </section>
+                <section id="v-hardware" class="view-section"><h2 style="font-family: var(--font-h); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">ФИЗИЧЕСКАЯ ИНФРАСТРУКТУРА</h2><div class="grid" id="grid-hw"></div></section>
+                <section id="v-software" class="view-section"><h2 style="font-family: var(--font-h); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">ЛОГИЧЕСКИЕ УЛУЧШЕНИЯ</h2><div class="grid" id="grid-sw"></div></section>
+                <section id="v-world" class="view-section"><h2 style="font-family: var(--font-h); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">МЕЖМЕРНЫЙ НЕКСУС</h2><div class="grid" id="grid-loc"></div></section>
+                <section id="v-cases" class="view-section"><div style="max-width: 600px; margin: 0 auto; text-align: center;"><h2 style="font-family: var(--font-h); font-size: 2.5rem; margin-bottom: 20px;">КВАНТОВЫЙ ЛУТБОКС</h2><div id="case-scene" style="height: 300px; border: 1px solid var(--p); margin-bottom: 30px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); font-size: 5rem; border-radius: var(--radius); text-shadow: var(--shadow);">📦</div><h3 id="case-result" style="color: var(--p); margin-bottom: 20px; font-family: var(--font-h);">ОЖИДАНИЕ...</h3><div class="grid" style="grid-template-columns: 1fr 1fr;"><button class="btn btn-action" onclick="Game.openCase(0)">ОБЫЧНЫЙ (1.00K)</button><button class="btn btn-action" style="background: #ff0055; color: #fff; border:none;" onclick="Game.openCase(1)">АНОМАЛЬНЫЙ (50.0K)</button></div></div></section>
+                <section id="v-system" class="view-section"><div class="grid"><div class="card"><h3>МАТРИЦА ТЕМЫ</h3><select id="sel-theme" class="btn" onchange="UI.setTheme(this.value)"><option value="t-default">КИБЕР СИНИЙ</option><option value="t-ruby">КРОВАВЫЙ РУБИН</option><option value="t-emerald">ТОКСИЧНЫЙ ИЗУМРУД</option><option value="t-amber">СОЛНЕЧНЫЙ ЯНТАРЬ</option><option value="t-violet">ГЛУБОКИЙ ФИОЛЕТ</option><option value="t-matrix">ТЕРМИНАЛ ХАКЕРА</option><option value="t-singularity">ЧИСТАЯ СИНГУЛЯРНОСТЬ</option></select></div><div class="card"><h3>СКИН ГЕОМЕТРИИ</h3><select id="sel-skin" class="btn" onchange="UI.setSkin(this.value)"><option value="0">СФЕРА (КЛАССИКА)</option><option value="1">КУБ (СТАБИЛЬНЫЙ)</option><option value="2">ГЕКСАГОН (СЛОЖНЫЙ)</option></select></div><div class="card"><h3>АУДИО СИНТЕЗ</h3><select id="sel-wave" class="btn"><option value="sine">МЯГКИЙ (СИНУС)</option><option value="square">8-БИТ (КВАДРАТ)</option><option value="sawtooth">АГРЕССИВНЫЙ (ПИЛА)</option><option value="triangle">РЕТРО (ТРЕУГОЛЬНИК)</option></select><input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.2" style="width:100%; margin-top:15px; cursor:pointer;"></div><div class="card"><h3>СИСТЕМНЫЙ КОНТРОЛЬ</h3><button class="btn" style="border-color: #ff0055; color: #ff0055;" onclick="Game.hardReset()">ПОЛНЫЙ СБРОС ДАННЫХ</button></div></div></section>
             </div>
         </main>
     </div>
-
     <script>
         const DB = {
             hw: [
@@ -193,7 +116,16 @@
 
         const State = {
             data: { s: 0, hw_L: Array(DB.hw.length).fill(0), sw_L: Array(DB.sw.length).fill(0), loc_U: [1,0,0,0], curLoc: 0, p: 0 },
-            init() { try { let saved = localStorage.getItem('Z3_CORE_DATA'); if(saved) this.data = JSON.parse(atob(saved)); } catch(e) { console.error("SAVE CORRUPTED."); } },
+            init() { 
+                try { 
+                    let saved = localStorage.getItem('Z3_CORE_DATA'); 
+                    if(saved) {
+                        let parsed = JSON.parse(atob(saved));
+                        // Гарантируем правильную структуру при загрузке
+                        if(parsed.hw_L && parsed.sw_L) this.data = parsed;
+                    }
+                } catch(e) { console.error("SAVE CORRUPTED."); } 
+            },
             save() { localStorage.setItem('Z3_CORE_DATA', btoa(JSON.stringify(this.data))); },
             wipe() { localStorage.removeItem('Z3_CORE_DATA'); location.reload(); }
         };
@@ -202,87 +134,46 @@
             ctx: null,
             play(type, freq, dur = 0.1) {
                 if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                let vol = document.getElementById('vol-slider').value;
-                if(vol <= 0) return;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                gain.gain.setValueAtTime(0, this.ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(vol * 0.2, this.ctx.currentTime + 0.01);
+                let vol = document.getElementById('vol-slider').value; if(vol <= 0) return;
+                const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                osc.type = type; osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0, this.ctx.currentTime); gain.gain.linearRampToValueAtTime(vol * 0.2, this.ctx.currentTime + 0.01);
                 gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + dur);
+                osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + dur);
             }
         };
 
         const VFX = {
-            c: document.getElementById('vfx-canvas'),
-            ctx: document.getElementById('vfx-canvas').getContext('2d'),
+            c: document.getElementById('vfx-canvas'), ctx: document.getElementById('vfx-canvas').getContext('2d'),
             particles: [], stars: [],
             init() { this.resize(); window.addEventListener('resize', () => this.resize()); for(let i=0; i<100; i++) this.stars.push({ x: Math.random()*this.c.width, y: Math.random()*this.c.height, s: Math.random()*2, a: Math.random() }); this.loop(); },
             resize() { this.c.width = window.innerWidth; this.c.height = window.innerHeight; },
             spawn(x, y, color) { for(let i=0; i<8; i++) { this.particles.push({ x: x, y: y, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10, life: 1, c: color }); } },
             loop() {
-                this.ctx.clearRect(0, 0, this.c.width, this.c.height);
-                this.ctx.fillStyle = '#ffffff';
+                this.ctx.clearRect(0, 0, this.c.width, this.c.height); this.ctx.fillStyle = '#ffffff';
                 this.stars.forEach(s => { this.ctx.globalAlpha = s.a; this.ctx.fillRect(s.x, s.y, s.s, s.s); s.y += s.s * 0.2; if(s.y > this.c.height) s.y = 0; });
                 this.ctx.globalAlpha = 1;
-                for(let i = this.particles.length - 1; i >= 0; i--) {
-                    let p = this.particles[i]; p.x += p.vx; p.y += p.vy; p.life -= 0.02;
-                    if(p.life <= 0) { this.particles.splice(i, 1); continue; }
-                    this.ctx.fillStyle = p.c; this.ctx.fillRect(p.x, p.y, 4*p.life, 4*p.life);
-                }
+                for(let i = this.particles.length - 1; i >= 0; i--) { let p = this.particles[i]; p.x += p.vx; p.y += p.vy; p.life -= 0.02; if(p.life <= 0) { this.particles.splice(i, 1); continue; } this.ctx.fillStyle = p.c; this.ctx.fillRect(p.x, p.y, 4*p.life, 4*p.life); }
                 requestAnimationFrame(() => this.loop());
             }
         };
 
         const MathCore = {
-            format(num) {
-                if(num < 1000) return num.toFixed(1);
-                const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx"];
-                const suffixNum = Math.floor(("" + Math.floor(num)).length / 3);
-                let shortValue = parseFloat((suffixNum != 0 ? (num / Math.pow(1000, suffixNum)) : num).toPrecision(3));
-                if (shortValue % 1 != 0) shortValue = shortValue.toFixed(1);
-                return shortValue + suffixes[suffixNum];
-            },
+            format(num) { if(num < 1000) return num.toFixed(1); const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx"]; const suffixNum = Math.floor(("" + Math.floor(num)).length / 3); let shortValue = parseFloat((suffixNum != 0 ? (num / Math.pow(1000, suffixNum)) : num).toPrecision(3)); if (shortValue % 1 != 0) shortValue = shortValue.toFixed(1); return shortValue + suffixes[suffixNum]; },
             calcCost(base, lvl) { return base * Math.pow(1.15, lvl); },
-            getPPS() { let pps = DB.hw.reduce((acc, hw, i) => acc + (hw.bps * State.data.hw_L[i]), 0); return pps * DB.loc[State.data.curLoc].mult; },
-            getClickPower() {
-                let base = 1 + (this.getPPS() * 0.05);
-                let mult = DB.sw.reduce((acc, sw, i) => acc * (State.data.sw_L[i] > 0 ? (Math.pow(sw.clickMult, State.data.sw_L[i])) : 1), 1);
-                return base * mult * DB.loc[State.data.curLoc].mult;
-            }
+            getPPS() { let pps = DB.hw.reduce((acc, hw, i) => acc + (hw.bps * (State.data.hw_L[i] || 0)), 0); return pps * DB.loc[State.data.curLoc].mult; },
+            getClickPower() { let base = 1 + (this.getPPS() * 0.05); let mult = DB.sw.reduce((acc, sw, i) => acc * (State.data.sw_L[i] > 0 ? (Math.pow(sw.clickMult, State.data.sw_L[i])) : 1), 1); return base * mult * DB.loc[State.data.curLoc].mult; }
         };
 
         const Game = {
             lastTick: performance.now(),
             init() { State.init(); VFX.init(); UI.init(); document.getElementById('orb-hitbox').addEventListener('mousedown', (e) => this.click(e)); setInterval(() => this.tick(), 100); setInterval(() => State.save(), 5000); },
-            click(e) {
-                let power = MathCore.getClickPower(); State.data.s += power;
-                let wave = document.getElementById('sel-wave').value; AudioSys.play(wave, 200 + (Math.random() * 50));
-                let rect = e.target.getBoundingClientRect();
-                let x = e.clientX || rect.left + rect.width/2; let y = e.clientY || rect.top + rect.height/2;
-                let color = getComputedStyle(document.body).getPropertyValue('--p').trim(); VFX.spawn(x, y, color);
-                UI.spawnText(x, y, `+${MathCore.format(power)}`); UI.update();
-            },
+            click(e) { let power = MathCore.getClickPower(); State.data.s += power; let wave = document.getElementById('sel-wave').value; AudioSys.play(wave, 200 + (Math.random() * 50)); let rect = e.target.getBoundingClientRect(); let x = e.clientX || rect.left + rect.width/2; let y = e.clientY || rect.top + rect.height/2; let color = getComputedStyle(document.body).getPropertyValue('--p').trim(); VFX.spawn(x, y, color); UI.spawnText(x, y, `+${MathCore.format(power)}`); UI.update(); },
             tick() { let now = performance.now(); let delta = (now - this.lastTick) / 1000; this.lastTick = now; let pps = MathCore.getPPS(); State.data.s += pps * delta; UI.update(); },
-            buyHW(id) { let cost = MathCore.calcCost(DB.hw[id].baseCost, State.data.hw_L[id]); if(State.data.s >= cost) { State.data.s -= cost; State.data.hw_L[id]++; AudioSys.play('square', 600, 0.2); UI.renderShop(); UI.update(); } },
-            buySW(id) { let cost = MathCore.calcCost(DB.sw[id].baseCost, State.data.sw_L[id]); if(State.data.s >= cost) { State.data.s -= cost; State.data.sw_L[id]++; AudioSys.play('triangle', 800, 0.2); UI.renderShop(); UI.update(); } },
-            setLoc(id) { if(State.data.loc_U[id]) { State.data.curLoc = id; } else if(State.data.s >= DB.loc[id].cost) { State.data.s -= DB.loc[id].cost; State.data.loc_U[id] = 1; State.data.curLoc = id; AudioSys.play('sawtooth', 200, 0.5); } UI.renderShop(); UI.update(); },
-            openCase(tier) {
-                let cost = tier === 0 ? 1000 : 50000;
-                let scene = document.getElementById('case-scene'); let res = document.getElementById('case-result');
-                if(State.data.s >= cost) { State.data.s -= cost; scene.style.animation = "spin 0.5s linear infinite"; res.innerText = "ДЕШИФРОВКА..."; AudioSys.play('square', 100, 0.5);
-                    setTimeout(() => {
-                        scene.style.animation = "none";
-                        let win = Math.random() > 0.8 ? cost * 5 : (Math.random() > 0.5 ? cost * 2 : cost * 0.1);
-                        State.data.s += win; res.innerText = `ИЗВЛЕЧЕНО: ${MathCore.format(win)} ДАННЫХ`;
-                        AudioSys.play('sine', win > cost ? 1000 : 300, 0.3); UI.update();
-                    }, 1000);
-                } else { res.innerText = "НЕДОСТАТОЧНО ЭНЕРГИИ"; }
-            },
+            buyHW(id) { let cost = MathCore.calcCost(DB.hw[id].baseCost, State.data.hw_L[id]); if(State.data.s >= cost) { State.data.s -= cost; State.data.hw_L[id]++; AudioSys.play('square', 600, 0.2); UI.renderShop(); UI.update(); State.save(); } },
+            buySW(id) { let cost = MathCore.calcCost(DB.sw[id].baseCost, State.data.sw_L[id]); if(State.data.s >= cost) { State.data.s -= cost; State.data.sw_L[id]++; AudioSys.play('triangle', 800, 0.2); UI.renderShop(); UI.update(); State.save(); } },
+            setLoc(id) { if(State.data.loc_U[id]) { State.data.curLoc = id; } else if(State.data.s >= DB.loc[id].cost) { State.data.s -= DB.loc[id].cost; State.data.loc_U[id] = 1; State.data.curLoc = id; AudioSys.play('sawtooth', 200, 0.5); } UI.renderShop(); UI.update(); State.save(); },
+            openCase(tier) { let cost = tier === 0 ? 1000 : 50000; let scene = document.getElementById('case-scene'); let res = document.getElementById('case-result'); if(State.data.s >= cost) { State.data.s -= cost; scene.style.animation = "spin 0.5s linear infinite"; res.innerText = "ДЕШИФРОВКА..."; AudioSys.play('square', 100, 0.5); setTimeout(() => { scene.style.animation = "none"; let win = Math.random() > 0.8 ? cost * 5 : (Math.random() > 0.5 ? cost * 2 : cost * 0.1); State.data.s += win; res.innerText = `ИЗВЛЕЧЕНО: ${MathCore.format(win)} ДАННЫХ`; AudioSys.play('sine', win > cost ? 1000 : 300, 0.3); UI.update(); State.save(); }, 1000); } else { res.innerText = "НЕДОСТАТОЧНО ЭНЕРГИИ"; } },
             hardReset() { if(confirm("КРИТИЧЕСКАЯ ОШИБКА: Текущая вселенная будет уничтожена. Продолжить?")) { State.wipe(); } }
         };
 
