@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENITH // WINGED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@300;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p: #00f2ff;
+            --p-rgb: 0, 242, 255;
+            --bg: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; background: var(--bg); color: #fff;
+            font-family: 'JetBrains Mono', monospace; overflow-x: hidden; scroll-behavior: smooth;
+        }
+
+        /* --- ГИПЕР-СЕТКА (3D PERSPECTIVE) --- */
+        .bg-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            perspective: 1000px; background: #000;
+        }
+
+        .grid-floor {
+            position: absolute; width: 400%; height: 400%;
+            top: -50%; left: -150%;
+            background-image: 
+                linear-gradient(to right, rgba(var(--p-rgb), 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(var(--p-rgb), 0.2) 1px, transparent 1px);
+            background-size: 80px 80px;
+            transform: rotateX(60deg);
+            animation: gridFlow 10s linear infinite;
+        }
+
+        @keyframes gridFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 80px; }
+        }
+
+        /* Виньетка для глубины */
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, #000 90%);
+            pointer-events: none;
+        }
+
+        /* --- КВАЗАР (ПЕРЕХОД) --- */
+        #quasar-core {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 100px 50px #fff, 0 0 200px 100px var(--p);
+            z-index: 999; opacity: 0; pointer-events: none;
+        }
+
+        .quasar-ring {
+            position: absolute; top: 50%; left: 50%; width: 1000px; height: 1000px;
+            border: 4px solid var(--p); border-radius: 40%;
+            transform: translate(-50%, -50%) rotate(0deg); opacity: 0;
+        }
+
+        /* Анимация перехода */
+        .loading-sequence #portal-ui { opacity: 0; filter: blur(40px); transform: scale(0.5); }
+        .loading-sequence #quasar-core { 
+            opacity: 1; scale: 1; 
+            animation: quasarExplode 2s cubic-bezier(0.9, 0, 0.1, 1) forwards; 
+        }
+
+        @keyframes quasarExplode {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0); }
+            40% { transform: translate(-50%, -50%) scale(1.5) rotate(360deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(200) rotate(1440deg); opacity: 1; background: #fff; }
+        }
+
+        /* --- ИНТЕРФЕЙС --- */
+        #portal-ui { transition: 1.5s cubic-bezier(0.7, 0, 0.3, 1); position: relative; z-index: 10; }
+
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .main-title { font-family: 'Orbitron'; font-size: clamp(4rem, 15vw, 12rem); margin: 0; color: #fff; text-shadow: 0 0 30px var(--p); }
+        .sub-tag { letter-spacing: 20px; color: var(--p); text-transform: uppercase; font-weight: 300; margin-bottom: 20px; }
+
+        .btn-launch {
+            margin-top: 50px; padding: 25px 80px; background: transparent; border: 2px solid #fff;
+            color: #fff; font-family: 'Orbitron'; font-weight: 900; font-size: 1.2rem;
+            cursor: pointer; transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .btn-launch:hover { background: #fff; color: #000; box-shadow: 0 0 50px #fff; transform: scale(1.1); }
+
+        .social-bar { margin-top: 40px; display: flex; gap: 30px; }
+        .social-bar a { color: var(--p); text-decoration: none; font-size: 0.8rem; border: 1px solid rgba(var(--p-rgb), 0.3); padding: 10px 20px; transition: 0.3s; }
+        .social-bar a:hover { background: var(--p); color: #000; box-shadow: 0 0 20px var(--p); }
+
+        /* --- ДЕТАЛЬНЫЙ ЧЕНДЖЛОГ --- */
+        .logs-section { max-width: 1000px; margin: 100px auto; padding: 0 20px; }
+        .log-card { 
+            background: rgba(10, 10, 20, 0.6); border: 1px solid rgba(var(--p-rgb), 0.1); 
+            padding: 40px; margin-bottom: 40px; backdrop-filter: blur(10px); position: relative;
+        }
+        .log-card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--p); }
+        .log-card h3 { font-family: 'Orbitron'; color: var(--p); margin: 0 0 20px 0; font-size: 1.5rem; }
+        .log-card ul { list-style: none; padding: 0; }
+        .log-card li { margin-bottom: 12px; color: #eee; padding-left: 25px; position: relative; line-height: 1.6; }
+        .log-card li::before { content: '◈'; position: absolute; left: 0; color: var(--p); }
+        .log-card li b { color: var(--p); }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-wrapper">
+        <div class="grid-floor"></div>
+        <div class="vignette"></div>
+    </div>
+
+    <div id="quasar-core">
+        <div class="quasar-ring" style="animation: rotateHole 1s linear infinite;"></div>
+        <div class="quasar-ring" style="width: 800px; height: 800px; animation: rotateHole 2s linear infinite reverse; opacity: 0.1;"></div>
+    </div>
+
+    <div id="portal-ui">
+        <section class="hero">
+            <div class="sub-tag">WINGED SYSTEMS</div>
+            <h1 class="main-title">ZENITH</h1>
+            <div class="social-bar">
+                <a href="https://t.me/твой_канал" target="_blank">TELEGRAM [CHANNEL]</a>
+                <a href="#">GITHUB [PROJECT]</a>
+            </div>
+            <button class="btn-launch" onclick="triggerQuasar()">LAUNCH_CORE.EXE</button>
+        </section>
+
+        <section class="logs-section">
+            <h2 style="font-family: 'Orbitron'; text-align: center; font-size: 3rem; margin-bottom: 80px;">FULL_PROJECT_HISTORY</h2>
+
+            <div class="log-card">
+                <h3>v3.0.0 — SINGULARITY EVENT</h3>
+                <ul>
+                    <li><b>Gacha Engine:</b> Полная реализация системы кейсов (Basic, Advanced, Anomaly).</li>
+                    <li><b>Audio Synth:</b> Внедрена процедурная генерация звука на базе WebAudio API (4 осциллятора).</li>
+                    <li><b>Visuals:</b> Система из 20 цветовых матриц и 3D-шейдеров для ядра (Orb/Hex/Cube).</li>
+                    <li><b>Locations:</b> Добавлен Nexus — переход между локациями (Земля, Луна, Пустота).</li>
+                    <li><b>Branding:</b> Финализация визуального стиля под эгидой <b>WINGED</b>.</li>
+                </ul>
+            </div>
+
+            <div class="log-card">
+                <h3>v2.8.0 — CRYPTO SHIELD</h3>
+                <ul>
+                    <li><b>Data:</b> Переход на Base64-алгоритм для защиты State-файла от прямого редактирования.</li>
+                    <li><b>UI:</b> Оптимизация Sidebar — теперь меню занимает меньше места, сохраняя функционал.</li>
+                </ul>
+            </div>
+
+            <div class="log-card">
+                <h3>v2.5.0 — PARTICLE ACCELERATOR</h3>
+                <ul>
+                    <li><b>VFX:</b> Новая система частиц Supernova (до 10,000 активных элементов без лагов).</li>
+                    <li><b>Input:</b> Добавлены модификаторы клика (Shift-Click x2, Space-Spam).</li>
+                </ul>
+            </div>
+
+            <div class="log-card">
+                <h3>v2.0.0 — HARDWARE ASCENSION</h3>
+                <ul>
+                    <li><b>Upgrades:</b> Добавлена ветка физического железа (от транзисторов до квантовых процессоров).</li>
+                    <li><b>Software:</b> Внедрена вкладка ПО для автоматизации добычи данных.</li>
+                </ul>
+            </div>
+
+            <div class="log-card">
+                <h3>v1.5.0 — NEOMORPHISM UPDATE</h3>
+                <ul>
+                    <li><b>Design:</b> Первый переход на темную тему с неоновыми акцентами.</li>
+                    <li><b>Navigation:</b> Внедрена система вкладок (Магазин, Настройки, Инфо).</li>
+                </ul>
+            </div>
+
+            <div class="log-card">
+                <h3>v1.0.0 — PROJECT ZENITH</h3>
+                <ul>
+                    <li><b>Core:</b> Первая стабильная версия игрового цикла.</li>
+                    <li><b>Storage:</b> Реализована работа с LocalStorage для сохранения прогресса.</li>
+                    <li><b>Balance:</b> Настройка первых 10 уровней экономики.</li>
+                </ul>
+            </div>
+
+            <div class="log-card" style="opacity: 0.5;">
+                <h3>v0.1.0 — THE CORE LINE</h3>
+                <ul>
+                    <li>Инициализация репозитория. Первые 100 строк кода.</li>
+                    <li>Тестирование математической модели PPS.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function triggerQuasar() {
+            document.body.classList.add('loading-sequence');
+            setTimeout(() => {
+                window.location.href = 'game.html';
+            }, 1800);
+        }
+
+        // Вращение колец квазара
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            document.querySelector('.grid-floor').style.transform = `rotateX(60deg) translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
+</html>
